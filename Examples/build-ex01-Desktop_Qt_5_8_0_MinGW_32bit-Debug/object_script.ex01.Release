@@ -1,0 +1,13 @@
+INPUT(
+./release/ex01.o
+./release/ex01viewer.o
+./release/ex01opengl.o
+./release/Object.o
+./release/Cube.o
+./release/Sphere.o
+./release/Teapot.o
+./release/WaveOBJ.o
+./release/qrc_ex01.o
+./release/moc_ex01viewer.o
+./release/moc_ex01opengl.o
+);

@@ -1,0 +1,14 @@
+INPUT(
+./debug/ex01.o
+./debug/ex01viewer.o
+./debug/ex01opengl.o
+./debug/Object.o
+./debug/Cube.o
+./debug/Sphere.o
+./debug/Teapot.o
+./debug/WaveOBJ.o
+./debug/plane.o
+./debug/qrc_ex01.o
+./debug/moc_ex01viewer.o
+./debug/moc_ex01opengl.o
+);

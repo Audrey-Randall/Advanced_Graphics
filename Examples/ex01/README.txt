@@ -1,0 +1,2 @@
+I basically changed nothing; I just rewrote the shaders. Import the project into Qt and click run; if it doesn't work the only part of the .pro I changed was adding the line LIBS += [openGL stuff].
+I spent a solid 6 hours trying to make Qt compile and then another 3 chasing my tail because I thought normalized device coordinates were the same as world coordinates and I had to save the model matrix. So I wasted a lot of time! This probably would have taken about 30 minutes if I'd known what I was doing.
