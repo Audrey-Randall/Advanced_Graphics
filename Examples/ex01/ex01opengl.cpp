@@ -229,7 +229,7 @@ void Ex01opengl::paintGL()
    }
 
    //  Apply shader
-   std::cout<<mode<<std::endl;
+   //std::cout<<mode<<std::endl;
    if (mode)
    {
       shaders[mode-1]->bind();
