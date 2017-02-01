@@ -6,6 +6,6 @@ varying vec2 objCoords;
 
 void main()
 {
-    objCoords = vec2(gl_Vertex.x +0.5, gl_Vertex.y+0.5);
+    objCoords = vec2(10*(gl_Vertex.x +0.5), 10*(gl_Vertex.y+0.5));
     gl_Position = ftransform();
 }

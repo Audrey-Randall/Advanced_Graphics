@@ -32,22 +32,22 @@ uniform int[512] p = { 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,14
       138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
 
-uniform vec2 vecs[8] = {vec2(1,0),
-                       vec2(0,1),
-                       vec2(1,1),
-                       vec2(0,0),
+uniform vec2 vecs[8] = {vec2(0,1),
+                       vec2(0.707,0.707),
+                       vec2(1,0),
+                       vec2(-0.707,0.707),
                        vec2(-1, 0),
+                       vec2(-0.707,-0.707),
                        vec2(0,-1),
-                       vec2(-1,-1),
-                       vec2(0,0)};
+                       vec2(0.707, -0.707)};
 
 float fade(float t) {
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
 float grad(int hash, float x, float y){
-    int which = hash & 0x8;
-    return x*(vecs[0].x) + y*(vecs[0].y);
+    int which = hash; // & 0x8;
+    return x*(vecs[which].x) + y*(vecs[which].y);
 }
 
 float lerp(float a, float b, float x) {
@@ -60,9 +60,9 @@ void main()
     float x = objCoords.x;
     float y = objCoords.y;
 
-    //Transform decimal coordinate in range 0-1 to integer between 0 and 255 for accessing hash table
-    int xi = int(x * 255);
-    int yi = int(y * 255);
+    //Transform decimal coordinate in range 0-1 to integer
+    int xi = int(x); //int(x * 10);
+    int yi = int(y); //int(y * 10);
 
     //Find point's coord within cube
     float xf = fract(x);
@@ -73,14 +73,20 @@ void main()
 
     //Hash function.
     int aa, ab, ba, bb;
-        aa = p[p[xi]+yi];
+        /*aa = p[p[xi]+yi];
         ab = p[p[xi]+yi+1];
         ba = p[p[xi+1]+yi];
-        bb = p[p[xi+1]+yi+1];
+        bb = p[p[xi+1]+yi+1];*/
+    aa = (xi + yi)%8;
+    ab = (xi+yi +1)%8;
+    ba = (xi + yi + 1)%8;
+    bb = (xi+yi+2)%8;
 
-    float x1 = lerp(grad(aa, xf, yf), grad(ab, xf, yf-1), u);
-    float x2 = lerp(grad(ba, xf-1, yf), grad(bb, xf-1, yf-1), u);
+    /*float x1 = lerp(grad(aa, xf, yf), grad(ab, xf, yf-1), u);
+    float x2 = lerp(grad(ba, xf-1, yf), grad(bb, xf-1, yf-1), u);*/
+    float x1 = lerp(grad(aa, xf, yf), grad(ab, -(xf-1), yf), u);
+    float x2 = lerp(grad(ba, xf, -(yf-1)), grad(bb, -(xf-1), -(yf-1)), u);
     float result = (lerp(x1, x2, v) +1)/2;
 
-    gl_FragColor = vec4(result, result, result, 1);
+    gl_FragColor = vec4(result,0, 0, 1);
 }
