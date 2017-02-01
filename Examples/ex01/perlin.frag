@@ -32,7 +32,15 @@ uniform int[512] p = { 151,160,137,91,90,15,131,13,201,95,96,53,194,233,7,225,14
       138,236,205,93,222,114,67,29,24,72,243,141,128,195,78,66,215,61,156,180
 };
 
-uniform vec2 vecs[8] = {vec2(0,1),
+uniform vec2 vecs[16] = {vec2(0.6, 0.8),
+                        vec2(0.243, 0.97),
+                        vec2(0.316, 0.949),
+                        vec2(0.64, 0.768),
+                        vec2(0.6, -0.8),
+                        vec2(-0.243, 0.97),
+                        vec2(-0.64, -0.768),
+                        vec2(-0.316, -0.949),
+                       vec2(0,1),
                        vec2(0.707,0.707),
                        vec2(1,0),
                        vec2(-0.707,0.707),
@@ -46,7 +54,7 @@ float fade(float t) {
 }
 
 float grad(int hash, float x, float y){
-    int which = hash; // & 0x8;
+    int which = hash & 0xF;
     return x*(vecs[which].x) + y*(vecs[which].y);
 }
 
@@ -73,20 +81,20 @@ void main()
 
     //Hash function.
     int aa, ab, ba, bb;
-        /*aa = p[p[xi]+yi];
-        ab = p[p[xi]+yi+1];
-        ba = p[p[xi+1]+yi];
-        bb = p[p[xi+1]+yi+1];*/
-    aa = (xi + yi)%8;
+        aa = p[p[xi]+yi];
+        ba = p[p[xi]+yi+1];
+        ab = p[p[xi+1]+yi];
+        bb = p[p[xi+1]+yi+1];
+    /*aa = (xi + yi)%8;
     ab = (xi+yi +1)%8;
     ba = (xi + yi + 1)%8;
-    bb = (xi+yi+2)%8;
+    bb = (xi+yi+2)%8;*/
 
     /*float x1 = lerp(grad(aa, xf, yf), grad(ab, xf, yf-1), u);
     float x2 = lerp(grad(ba, xf-1, yf), grad(bb, xf-1, yf-1), u);*/
-    float x1 = lerp(grad(aa, xf, yf), grad(ab, -(xf-1), yf), u);
-    float x2 = lerp(grad(ba, xf, -(yf-1)), grad(bb, -(xf-1), -(yf-1)), u);
+    float x1 = lerp(grad(aa, xf, yf), grad(ab, xf-1, yf), u);
+    float x2 = lerp(grad(ba, xf, yf-1), grad(bb, xf-1, yf-1), u);
     float result = (lerp(x1, x2, v) +1)/2;
 
-    gl_FragColor = vec4(result,0, 0, 1);
+    gl_FragColor = vec4(result,1-result, 1, 1);
 }
